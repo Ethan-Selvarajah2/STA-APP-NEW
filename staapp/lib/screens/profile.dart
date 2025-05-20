@@ -1,10 +1,5 @@
+import 'package:staapp/screens/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:staapp/widgets/home/announcements.dart';
-import 'package:staapp/widgets/extras/header.dart';
-import 'package:staapp/widgets/menu/specials.dart';
-import 'package:staapp/widgets/menu/menu.dart';
-import 'package:staapp/theme/theme.dart';
-import 'package:staapp/theme/styles.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,16 +9,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  int _currentIndex = 4;
   String _profileImage = 'assets/logos/hasini.png'; // Default profile image
 
-  // Sample list of profile picture options
   final List<String> _profileOptions = [
     'assets/logos/hasini.png',
     'assets/logos/unicorn.png',
     'assets/logos/dog.png',
-    'assets/logos/dice-1.png',
-    'assets/logos/dice-2.png',
   ];
 
   @override
@@ -49,7 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const SizedBox(height: 20),
                   _buildInfoCard('Student ID', 'Hv1173559'),
                   _buildInfoCard('Email', 'hasini.vijayinbasri26@ycdsbk12.ca'),
                   const SizedBox(height: 20),
@@ -63,63 +53,72 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildCurvedHeader() {
-    return Container(
-      height: 250,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Curved Background
-          Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFF8B0000),
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-              border: Border(
-                bottom: BorderSide(
-                  color: Color.fromARGB(255, 238, 234, 22),
-                  width: 6,
-                ),
-              ),
+  return SizedBox(
+    height: 250,
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF8B0000),
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
             ),
-            height: 250, // adjust as needed
-          ),
-          // Profile Picture
-          Positioned(
-            top: 30,
-            child: _buildProfilePicture(),
-          ),
-          // Title Text
-          Positioned(
-            bottom: 40,
-            child: SafeArea(
-              child: Text(
-                'Titan Profile',
-                style: TextStyle(
-                  color: const Color.fromARGB(255, 223, 188, 10),
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+            border: Border(
+              bottom: BorderSide(
+                color: Color.fromARGB(255, 238, 234, 22),
+                width: 6,
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
+          height: 250,
+        ),
+        Positioned(
+          top: 30,
+          right: 20,
+          child: IconButton(
+            icon: const Icon(Icons.settings, color: Colors.white, size: 28),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsPage()),
+              );
+            },
+          ),
+        ),
+        Positioned(
+          top: 30,
+          child: _buildProfilePicture(),
+        ),
+        Positioned(
+          bottom: 40,
+          child: SafeArea(
+            child: Text(
+              'Titan Profile',
+              style: TextStyle(
+                color: const Color.fromARGB(255, 223, 188, 10),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildProfilePicture() {
     return GestureDetector(
-      onTap: () {
-        _showProfileOptionsDialog();
-      },
+      onTap: _showProfileOptionsDialog,
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(199, 255, 255, 21).withOpacity(0.5),
+              color: const Color.fromARGB(199, 255, 255, 21).withOpacity(0.5),
               blurRadius: 20,
               spreadRadius: 5,
             ),
@@ -127,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         child: CircleAvatar(
           radius: 60,
-          backgroundColor: Color.fromARGB(255, 200, 203, 8),
+          backgroundColor: const Color.fromARGB(255, 200, 203, 8),
           child: CircleAvatar(
             radius: 55,
             backgroundImage: AssetImage(_profileImage),
@@ -144,7 +143,9 @@ class _ProfilePageState extends State<ProfilePage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(13),
         side: const BorderSide(
-            color: Color.fromARGB(255, 144, 8, 8), width: 6),
+          color: Color.fromARGB(255, 144, 8, 8),
+          width: 6,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(15),
@@ -179,8 +180,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  
-
   void _showProfileOptionsDialog() {
     showDialog(
       context: context,
@@ -188,19 +187,19 @@ class _ProfilePageState extends State<ProfilePage> {
         return AlertDialog(
           title: const Text('Change Profile Picture'),
           content: SingleChildScrollView(
-            child: SizedBox( // Added SizedBox to constrain height
-              width: double.maxFinite, // Occupy full width
-              child: ListView.builder( // Replaced ListBody with ListView.builder
-                shrinkWrap: true, // Important for ListView in Dialog
+            child: SizedBox(
+              width: double.maxFinite,
+              child: ListView.builder(
+                shrinkWrap: true,
                 itemCount: _profileOptions.length,
                 itemBuilder: (BuildContext context, int index) {
                   final image = _profileOptions[index];
-                  return InkWell( // Using InkWell for better tap feedback
+                  return InkWell(
                     onTap: () {
                       setState(() {
                         _profileImage = image;
                       });
-                      Navigator.pop(context); // Close the dialog
+                      Navigator.pop(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -219,5 +218,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
