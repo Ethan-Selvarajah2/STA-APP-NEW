@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:staapp/widgets/extras/header.dart';
 import 'package:staapp/theme/styles.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -14,15 +15,13 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-        backgroundColor: Styles.primary,
-      ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(Styles.phonePadding),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // First white box
+            const Header(name: "Settings"),
+            const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -33,7 +32,6 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Toggle for General Notifications
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -53,7 +51,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  // Send Feedback Button
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -66,23 +63,21 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: const Text('Send Feedback'),
                   ),
                   const SizedBox(height: 8),
-                  // Log Out Button
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      foregroundColor: Colors.white,
+                      backgroundColor: Styles.secondary,
+                      foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Log Out'),
+                    child: const Text('FAQ'),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-            // Second white box
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
@@ -94,13 +89,13 @@ class _SettingsPageState extends State<SettingsPage> {
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Styles.secondary,
-                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text('FAQ'),
+                child: const Text('Logout'),
               ),
             ),
           ],
